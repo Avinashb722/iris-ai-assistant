@@ -8,37 +8,37 @@ const screenshots = [
     id: 1,
     title: "Home Interface",
     description: "Modern web-based control interface with real-time status",
-    image: "/src/assets/ui/Home Page.png"
+    image: "/ui/Home Page.png"
   },
   {
     id: 2,
     title: "Command History",
     description: "Real-time command processing and history tracking",
-    image: "/src/assets/ui/command h.png"
+    image: "/ui/command h.png"
   },
   {
     id: 3,
     title: "Continuous Listening",
     description: "Always-on voice command processing interface",
-    image: "/src/assets/ui/continuous.png"
+    image: "/ui/continuous.png"
   },
   {
     id: 4,
     title: "System Initialization",
     description: "Startup and authentication process with biometric security",
-    image: "/src/assets/ui/Initializsing.png"
+    image: "/ui/Initializsing.png"
   },
   {
     id: 5,
     title: "Settings Panel",
     description: "Comprehensive configuration and personalization options",
-    image: "/src/assets/ui/settings.png"
+    image: "/ui/settings.png"
   },
   {
     id: 6,
     title: "Command Execution",
     description: "Real-time command execution and response interface",
-    image: "/src/assets/ui/execution.png"
+    image: "/ui/execution.png"
   }
 ];
 
