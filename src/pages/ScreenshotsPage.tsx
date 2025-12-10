@@ -8,37 +8,37 @@ const screenshots = [
     id: 1,
     title: "Home Interface",
     description: "Modern web-based control interface with real-time status",
-    image: "/ui/Home Page.png"
+    image: "/Home Page.png"
   },
   {
     id: 2,
     title: "Command History",
     description: "Real-time command processing and history tracking",
-    image: "/ui/command h.png"
+    image: "/command h.png"
   },
   {
     id: 3,
     title: "Continuous Listening",
     description: "Always-on voice command processing interface",
-    image: "/ui/continuous.png"
+    image: "/continuous.png"
   },
   {
     id: 4,
     title: "System Initialization",
     description: "Startup and authentication process with biometric security",
-    image: "/ui/Initializsing.png"
+    image: "/Initializsing.png"
   },
   {
     id: 5,
     title: "Settings Panel",
     description: "Comprehensive configuration and personalization options",
-    image: "/ui/settings.png"
+    image: "/settings.png"
   },
   {
     id: 6,
     title: "Command Execution",
     description: "Real-time command execution and response interface",
-    image: "/ui/execution.png"
+    image: "/execution.png"
   }
 ];
 
@@ -88,8 +88,9 @@ export default function ScreenshotsPage() {
                         alt={screenshot.title}
                         className="w-full h-full object-cover"
                         onError={(e) => {
-                          e.target.style.display = 'none';
-                          e.target.nextSibling.style.display = 'flex';
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                          (target.nextSibling as HTMLElement)?.style.setProperty('display', 'flex');
                         }}
                       />
                     ) : null}
