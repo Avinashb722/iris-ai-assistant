@@ -17,7 +17,7 @@ const downloads = [
     title: "Source Code (ZIP)",
     description: "Complete project source code with all modules",
     size: "~25 MB",
-    href: "/src/assets/jarvis-source-code.zip",
+    href: "https://raw.githubusercontent.com/Avinashb722/iris-ai-assistant/main/src/assets/jarvis-source-code.zip",
     primary: true
   },
   {
@@ -25,28 +25,28 @@ const downloads = [
     title: "Project Report (PDF)",
     description: "Detailed documentation and technical report",
     size: "~5 MB",
-    href: "/src/assets/jarvis-project-report.pdf"
+    href: "https://raw.githubusercontent.com/Avinashb722/iris-ai-assistant/main/src/assets/jarvis-project-report.pdf"
   },
   {
     icon: FileText,
     title: "Documentation (PDF)",
     description: "User manual and API documentation",
     size: "~3 MB",
-    href: "/src/assets/jarvis-documentation.pdf"
+    href: "https://raw.githubusercontent.com/Avinashb722/iris-ai-assistant/main/src/assets/jarvis-documentation.pdf"
   },
   {
     icon: Presentation,
     title: "PPT Presentation",
     description: "Project presentation slides",
     size: "~10 MB",
-    href: "/src/assets/jarvis-presentation.pptx"
+    href: "https://raw.githubusercontent.com/Avinashb722/iris-ai-assistant/main/src/assets/jarvis-presentation.pptx"
   },
   {
     icon: Video,
     title: "Demo Video",
     description: "Full demonstration video (MP4)",
     size: "~100 MB",
-    href: "/src/assets/jarvis-demo-video.mp4"
+    href: "https://raw.githubusercontent.com/Avinashb722/iris-ai-assistant/main/src/assets/jarvis-demo-video.mp4"
   }
 ];
 
