@@ -10,15 +10,25 @@ import {
   Terminal,
   FileJson,
   Copy,
-  CheckCircle2
+  CheckCircle2,
+  Smartphone,
+  Cloud,
+  Download
 } from "lucide-react";
 import { useState } from "react";
 
-const requirements = [
+const windowsRequirements = [
   { icon: Cpu, label: "Python", value: "3.7 or higher" },
   { icon: Monitor, label: "Operating System", value: "Windows 10/11" },
   { icon: HardDrive, label: "Storage", value: "500MB+ free space" },
   { icon: Wifi, label: "Internet", value: "Optional (for AI models)" },
+];
+
+const androidRequirements = [
+  { icon: Smartphone, label: "Android", value: "8.0 (Oreo) or higher" },
+  { icon: Monitor, label: "Windows PC", value: "For remote control" },
+  { icon: Cloud, label: "Firebase", value: "Cloud synchronization" },
+  { icon: Wifi, label: "Internet", value: "Required for sync" },
 ];
 
 const configFiles = [
@@ -48,7 +58,7 @@ const configFiles = [
   }
 ];
 
-const installSteps = [
+const windowsInstallSteps = [
   {
     step: 1,
     title: "Clone the Repository",
@@ -72,6 +82,39 @@ const installSteps = [
     title: "Run JARVIS",
     command: "python run.py",
     description: "Launch the JARVIS AI Assistant"
+  }
+];
+
+const androidInstallSteps = [
+  {
+    step: 1,
+    title: "Download & Install APK",
+    command: "Download Mob-Jarvis.apk from GitHub releases",
+    description: "Get the Android application file and install"
+  },
+  {
+    step: 2,
+    title: "Grant All Permissions",
+    command: "Allow Microphone, Accessibility, Phone, SMS, Location access",
+    description: "Enable all required permissions for full functionality"
+  },
+  {
+    step: 3,
+    title: "Add Groq API Key",
+    command: "Settings → AI Configuration → Enter Groq API Key",
+    description: "Configure Groq AI for voice processing"
+  },
+  {
+    step: 4,
+    title: "Add Gemini API Key",
+    command: "Settings → AI Configuration → Enter Gemini API Key",
+    description: "Configure Google Gemini for advanced AI features"
+  },
+  {
+    step: 5,
+    title: "Setup Firebase & PC Listener",
+    command: "Configure Firebase project and run python firebase_listener.py on PC",
+    description: "Enable cloud sync between Android and Windows PC"
   }
 ];
 
@@ -104,6 +147,10 @@ function CodeBlock({ code }: { code: string }) {
 }
 
 export default function InstallationPage() {
+  const [selectedPlatform, setSelectedPlatform] = useState<'windows' | 'android'>('windows');
+  const requirements = selectedPlatform === 'windows' ? windowsRequirements : androidRequirements;
+  const installSteps = selectedPlatform === 'windows' ? windowsInstallSteps : androidInstallSteps;
+  
   return (
     <Layout>
       <div className="relative min-h-screen pt-24 lg:pt-32">
@@ -121,8 +168,41 @@ export default function InstallationPage() {
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">
               <span className="text-gradient">Installation</span> Guide
             </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
               Get JARVIS AI Assistant up and running on your system in minutes
+            </p>
+            
+            {/* Platform Selector */}
+            <div className="flex items-center justify-center gap-4 mb-8">
+              <button
+                onClick={() => setSelectedPlatform('windows')}
+                className={`flex items-center gap-2 px-6 py-3 rounded-xl border transition-all ${
+                  selectedPlatform === 'windows'
+                    ? 'bg-primary text-primary-foreground border-primary'
+                    : 'bg-card/50 text-muted-foreground border-border/50 hover:border-primary/30'
+                }`}
+              >
+                <Monitor className="w-5 h-5" />
+                <span className="font-medium">Windows Setup</span>
+              </button>
+              <button
+                onClick={() => setSelectedPlatform('android')}
+                className={`flex items-center gap-2 px-6 py-3 rounded-xl border transition-all ${
+                  selectedPlatform === 'android'
+                    ? 'bg-primary text-primary-foreground border-primary'
+                    : 'bg-card/50 text-muted-foreground border-border/50 hover:border-primary/30'
+                }`}
+              >
+                <Smartphone className="w-5 h-5" />
+                <span className="font-medium">Android Setup</span>
+              </button>
+            </div>
+            
+            <p className="text-sm text-muted-foreground">
+              {selectedPlatform === 'windows' 
+                ? 'Install the desktop AI assistant on Windows'
+                : 'Set up the mobile bridge for remote PC control'
+              }
             </p>
           </motion.div>
 
@@ -135,7 +215,7 @@ export default function InstallationPage() {
           >
             <h2 className="font-display text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
               <Terminal className="w-6 h-6 text-primary" />
-              System Requirements
+              {selectedPlatform === 'windows' ? 'System Requirements' : 'Mobile Requirements'}
             </h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {requirements.map((req, index) => (
@@ -162,7 +242,7 @@ export default function InstallationPage() {
             className="max-w-4xl mx-auto mb-16"
           >
             <h2 className="font-display text-2xl font-bold text-foreground mb-6">
-              Setup Steps
+              {selectedPlatform === 'windows' ? 'Windows Setup Steps' : 'Android Setup Steps'}
             </h2>
             <div className="space-y-6">
               {installSteps.map((step, index) => (
@@ -195,7 +275,7 @@ export default function InstallationPage() {
             transition={{ delay: 0.5 }}
             className="max-w-4xl mx-auto mb-16"
           >
-            <InstallationTracker />
+            <InstallationTracker platform={selectedPlatform} />
           </motion.section>
 
           {/* Configuration Files */}
@@ -207,22 +287,44 @@ export default function InstallationPage() {
           >
             <h2 className="font-display text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
               <FileJson className="w-6 h-6 text-primary" />
-              Configuration Files
+              {selectedPlatform === 'windows' ? 'Configuration Files' : 'App Permissions Required'}
             </h2>
             <div className="p-6 rounded-2xl bg-card/50 border border-border/50 backdrop-blur-sm">
               <p className="text-muted-foreground mb-6">
-                JARVIS AI Assistant uses JSON files for configuration. You'll find these in the project directory:
+                {selectedPlatform === 'windows' 
+                  ? 'JARVIS AI Assistant uses JSON files for configuration. You\'ll find these in the project directory:'
+                  : 'Mob-Jarvis requires the following permissions for full functionality:'
+                }
               </p>
               <div className="grid sm:grid-cols-2 gap-4">
-                {configFiles.map((file, index) => (
-                  <div
-                    key={file.name}
-                    className="p-4 rounded-xl bg-secondary/30 border border-border/50"
-                  >
-                    <code className="text-primary font-mono text-sm">{file.name}</code>
-                    <p className="text-xs text-muted-foreground mt-1">{file.description}</p>
-                  </div>
-                ))}
+                {selectedPlatform === 'windows' ? (
+                  configFiles.map((file, index) => (
+                    <div
+                      key={file.name}
+                      className="p-4 rounded-xl bg-secondary/30 border border-border/50"
+                    >
+                      <code className="text-primary font-mono text-sm">{file.name}</code>
+                      <p className="text-xs text-muted-foreground mt-1">{file.description}</p>
+                    </div>
+                  ))
+                ) : (
+                  [
+                    { name: "Microphone", desc: "Voice command recognition" },
+                    { name: "Accessibility Service", desc: "Screen reading and interaction" },
+                    { name: "Phone & SMS", desc: "Call and message management" },
+                    { name: "Location", desc: "GPS navigation features" },
+                    { name: "Storage", desc: "File management operations" },
+                    { name: "Camera", desc: "Screenshot and image capture" }
+                  ].map((permission, index) => (
+                    <div
+                      key={permission.name}
+                      className="p-4 rounded-xl bg-secondary/30 border border-border/50"
+                    >
+                      <span className="text-primary font-medium text-sm">{permission.name}</span>
+                      <p className="text-xs text-muted-foreground mt-1">{permission.desc}</p>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
           </motion.section>

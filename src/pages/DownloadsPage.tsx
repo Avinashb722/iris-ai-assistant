@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import {
   Download,
   FileCode,
@@ -8,10 +9,13 @@ import {
   Presentation,
   Video,
   Github,
-  ExternalLink
+  ExternalLink,
+  Monitor,
+  Smartphone,
+  Package
 } from "lucide-react";
 
-const downloads = [
+const windowsDownloads = [
   {
     icon: FileCode,
     title: "Source Code (ZIP)",
@@ -50,7 +54,42 @@ const downloads = [
   }
 ];
 
+const androidDownloads = [
+  {
+    icon: Package,
+    title: "Mob-Jarvis APK",
+    description: "Android application for mobile-PC bridge",
+    size: "~15 MB",
+    href: "/mob-jarvis.apk",
+    primary: true
+  },
+  {
+    icon: FileText,
+    title: "Mobile Documentation",
+    description: "Setup guide for Android-PC bridge",
+    size: "~2 MB",
+    href: "/mobile-jarvis-docs.pdf"
+  },
+  {
+    icon: FileText,
+    title: "Architecture Guide",
+    description: "Client-Cloud-Server architecture documentation",
+    size: "~3 MB",
+    href: "/hybrid-architecture.pdf"
+  },
+  {
+    icon: Video,
+    title: "Android Demo Video",
+    description: "Mobile app demonstration with PC control (MP4)",
+    size: "~80 MB",
+    href: "/android-demo-video.mp4"
+  }
+];
+
 export default function DownloadsPage() {
+  const [selectedPlatform, setSelectedPlatform] = useState<'windows' | 'android'>('windows');
+  const downloads = selectedPlatform === 'windows' ? windowsDownloads : androidDownloads;
+  
   return (
     <Layout>
       <div className="relative min-h-screen pt-24 lg:pt-32">
@@ -68,9 +107,35 @@ export default function DownloadsPage() {
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">
               <span className="text-gradient">Downloads</span>
             </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
               Get all the resources you need for the JARVIS AI Assistant project
             </p>
+            
+            {/* Platform Selector */}
+            <div className="flex items-center justify-center gap-4 mb-8">
+              <button
+                onClick={() => setSelectedPlatform('windows')}
+                className={`flex items-center gap-2 px-6 py-3 rounded-xl border transition-all ${
+                  selectedPlatform === 'windows'
+                    ? 'bg-primary text-primary-foreground border-primary'
+                    : 'bg-card/50 text-muted-foreground border-border/50 hover:border-primary/30'
+                }`}
+              >
+                <Monitor className="w-5 h-5" />
+                <span className="font-medium">Windows Downloads</span>
+              </button>
+              <button
+                onClick={() => setSelectedPlatform('android')}
+                className={`flex items-center gap-2 px-6 py-3 rounded-xl border transition-all ${
+                  selectedPlatform === 'android'
+                    ? 'bg-primary text-primary-foreground border-primary'
+                    : 'bg-card/50 text-muted-foreground border-border/50 hover:border-primary/30'
+                }`}
+              >
+                <Smartphone className="w-5 h-5" />
+                <span className="font-medium">Android Downloads</span>
+              </button>
+            </div>
           </motion.div>
 
           {/* GitHub CTA */}
@@ -83,10 +148,13 @@ export default function DownloadsPage() {
             <div className="p-6 rounded-2xl bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 backdrop-blur-sm text-center">
               <Github className="w-12 h-12 text-primary mx-auto mb-4" />
               <h2 className="font-display text-xl font-bold text-foreground mb-2">
-                Get it from GitHub
+                {selectedPlatform === 'windows' ? 'Get it from GitHub' : 'Android Repository'}
               </h2>
               <p className="text-muted-foreground mb-4">
-                Star the repository and clone the latest version
+                {selectedPlatform === 'windows' 
+                  ? 'Star the repository and clone the latest version'
+                  : 'Download APK and access mobile app source code'
+                }
               </p>
               <Button variant="cyber" asChild>
                 <a href="https://github.com/Avinashb722/jarvis-ai-assistant" target="_blank" rel="noopener noreferrer">

@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Layout } from "@/components/layout/Layout";
 import { GitHubStats } from "@/components/GitHubStats";
+import { useState } from "react";
 import { 
   Target, 
   Lightbulb, 
@@ -9,7 +10,11 @@ import {
   Bot,
   Cpu,
   Users,
-  Zap
+  Zap,
+  Monitor,
+  Smartphone,
+  Cloud,
+  Wifi
 } from "lucide-react";
 
 const objectives = [
@@ -21,14 +26,24 @@ const objectives = [
   "Provide a JARVIS-like interactive experience",
 ];
 
-const stats = [
+const windowsStats = [
   { icon: Bot, value: "AI-Powered", label: "Multiple AI Models" },
   { icon: Cpu, value: "Python", label: "Built With" },
-  { icon: Users, value: "Desktop", label: "Platform" },
+  { icon: Monitor, value: "Desktop", label: "Platform" },
   { icon: Zap, value: "Real-time", label: "Voice Processing" },
 ];
 
+const androidStats = [
+  { icon: Smartphone, value: "Mobile", label: "Android Platform" },
+  { icon: Cloud, value: "Firebase", label: "Cloud Sync" },
+  { icon: Bot, value: "Hybrid", label: "Architecture" },
+  { icon: Wifi, value: "Remote", label: "PC Control" },
+];
+
 export default function AboutPage() {
+  const [selectedPlatform, setSelectedPlatform] = useState<'windows' | 'android'>('windows');
+  const stats = selectedPlatform === 'windows' ? windowsStats : androidStats;
+  
   return (
     <Layout>
       <div className="relative min-h-screen pt-24 lg:pt-32">
@@ -46,9 +61,35 @@ export default function AboutPage() {
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">
               About <span className="text-gradient">JARVIS</span>
             </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
               Advanced AI-Powered Virtual Assistant - Understanding the vision behind the project
             </p>
+            
+            {/* Platform Selector */}
+            <div className="flex items-center justify-center gap-4 mb-8">
+              <button
+                onClick={() => setSelectedPlatform('windows')}
+                className={`flex items-center gap-2 px-6 py-3 rounded-xl border transition-all ${
+                  selectedPlatform === 'windows'
+                    ? 'bg-primary text-primary-foreground border-primary'
+                    : 'bg-card/50 text-muted-foreground border-border/50 hover:border-primary/30'
+                }`}
+              >
+                <Monitor className="w-5 h-5" />
+                <span className="font-medium">Windows Desktop</span>
+              </button>
+              <button
+                onClick={() => setSelectedPlatform('android')}
+                className={`flex items-center gap-2 px-6 py-3 rounded-xl border transition-all ${
+                  selectedPlatform === 'android'
+                    ? 'bg-primary text-primary-foreground border-primary'
+                    : 'bg-card/50 text-muted-foreground border-border/50 hover:border-primary/30'
+                }`}
+              >
+                <Smartphone className="w-5 h-5" />
+                <span className="font-medium">Android Mobile</span>
+              </button>
+            </div>
           </motion.div>
 
           {/* Stats */}
@@ -85,11 +126,11 @@ export default function AboutPage() {
                 <h2 className="font-display text-2xl font-bold text-foreground">Introduction</h2>
               </div>
               <p className="text-muted-foreground leading-relaxed text-lg">
-                JARVIS AI Assistant is an advanced AI-powered virtual assistant that combines cutting-edge AI technologies 
-                with practical automation features. Built with Python and modern web technologies, it offers voice-controlled 
-                interactions, biometric authentication, phone integration, and intelligent task automation. The assistant 
-                leverages multiple AI providers (Groq, Google Gemini) for natural language processing and provides a sleek 
-                web-based interface for seamless user interaction.
+                {selectedPlatform === 'windows' ? (
+                  'JARVIS AI Assistant is an advanced AI-powered virtual assistant that combines cutting-edge AI technologies with practical automation features. Built with Python and modern web technologies, it offers voice-controlled interactions, biometric authentication, phone integration, and intelligent task automation. The assistant leverages multiple AI providers (Groq, Google Gemini) for natural language processing and provides a sleek web-based interface for seamless user interaction.'
+                ) : (
+                  'Mob-Jarvis is a powerful hybrid AI ecosystem that bridges your Android smartphone and Windows workstation. Using a Client-Cloud-Server architecture with Firebase Firestore, it enables seamless remote PC control via voice commands from anywhere. The mobile app serves as your AI remote control, while the Windows listener executes commands in real-time through cloud synchronization.'
+                )}
               </p>
             </div>
           </motion.section>
@@ -150,14 +191,20 @@ export default function AboutPage() {
                 <h2 className="font-display text-2xl font-bold text-foreground">Problem Statement</h2>
               </div>
               <p className="text-muted-foreground leading-relaxed text-lg mb-6">
-                Users spend unnecessary time switching apps, typing commands, and performing repetitive tasks. 
-                The modern workflow demands constant context switching between applications, manual data entry, 
-                and repetitive operations that drain productivity.
+                {selectedPlatform === 'windows' ? (
+                  'Users spend unnecessary time switching apps, typing commands, and performing repetitive tasks. The modern workflow demands constant context switching between applications, manual data entry, and repetitive operations that drain productivity.'
+                ) : (
+                  'Mobile users need seamless integration between their phones and computers. Traditional remote desktop solutions are clunky and require complex setup. Users want to control their PC naturally from their phone without being physically present at their workstation.'
+                )}
               </p>
               <div className="p-4 rounded-xl bg-primary/10 border border-primary/20">
                 <p className="text-foreground font-medium">
-                  <span className="text-primary">JARVIS AI Assistant solves this</span> by providing natural voice-based control 
-                  and automated workflows, reducing manual intervention and streamlining daily tasks.
+                  <span className="text-primary">JARVIS AI Assistant solves this</span> by providing 
+                  {selectedPlatform === 'windows' ? (
+                    ' natural voice-based control and automated workflows, reducing manual intervention and streamlining daily tasks.'
+                  ) : (
+                    ' a hybrid mobile-desktop bridge with voice commands, enabling remote PC control through simple speech from your Android device.'
+                  )}
                 </p>
               </div>
             </div>

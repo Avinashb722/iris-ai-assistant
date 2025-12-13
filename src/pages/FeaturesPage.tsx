@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Layout } from "@/components/layout/Layout";
+import { useState } from "react";
 import {
   Mic,
   Bot,
@@ -18,10 +19,22 @@ import {
   Database,
   Sparkles,
   Monitor,
-  Zap
+  Zap,
+  Navigation,
+  Flashlight,
+  Volume2,
+  Wifi,
+  Bluetooth,
+  Camera,
+  Clock,
+  Search,
+  Music,
+  MapPin,
+  FileText,
+  Cloud
 } from "lucide-react";
 
-const featureCategories = [
+const windowsFeatureCategories = [
   {
     title: "🔐 Biometric Authentication",
     description: "Advanced security with multiple authentication methods",
@@ -238,7 +251,189 @@ const featureCategories = [
   }
 ];
 
+const androidFeatureCategories = [
+  {
+    title: "🖥️ PC Control Bridge",
+    description: "Remote Windows PC control from your Android device",
+    color: "primary",
+    features: [
+      {
+        icon: Monitor,
+        title: "Universal PC Commands",
+        description: "Say 'PC [Any Command]' to execute on Windows remotely"
+      },
+      {
+        icon: Bot,
+        title: "Real-time Cloud Sync",
+        description: "Firebase Firestore for instant command synchronization"
+      },
+      {
+        icon: Settings,
+        title: "System Automation",
+        description: "Control Windows apps, files, and system functions"
+      }
+    ]
+  },
+  {
+    title: "💬 Communication & Social",
+    description: "Advanced messaging and calling capabilities",
+    color: "accent",
+    features: [
+      {
+        icon: MessageSquare,
+        title: "WhatsApp Automation",
+        description: "Voice/video calls and messaging via WhatsApp"
+      },
+      {
+        icon: Smartphone,
+        title: "Phone & SMS Control",
+        description: "Make calls and send texts with voice commands"
+      },
+      {
+        icon: Brain,
+        title: "Context Memory",
+        description: "Remember contacts - say 'Call him' for last mentioned person"
+      }
+    ]
+  },
+  {
+    title: "🧠 AI & Memory",
+    description: "Intelligent processing and memory capabilities",
+    color: "primary",
+    features: [
+      {
+        icon: Database,
+        title: "RAG Memorization",
+        description: "Store and recall information from files using vector database"
+      },
+      {
+        icon: Mic,
+        title: "Screen Reading",
+        description: "Text-to-speech of current screen content"
+      },
+      {
+        icon: FileText,
+        title: "Clipboard Manager",
+        description: "Copy screen content, paste, and manage clipboard"
+      }
+    ]
+  },
+  {
+    title: "📍 Navigation & Location",
+    description: "GPS and location-based services",
+    color: "accent",
+    features: [
+      {
+        icon: Navigation,
+        title: "Quick Navigation",
+        description: "Voice-activated GPS navigation to any destination"
+      },
+      {
+        icon: Search,
+        title: "Local Search",
+        description: "Find nearby restaurants, gas stations, and services"
+      },
+      {
+        icon: MapPin,
+        title: "Location Status",
+        description: "Get current location and address information"
+      }
+    ]
+  },
+  {
+    title: "⚙️ System Control",
+    description: "Complete Android device management",
+    color: "primary",
+    features: [
+      {
+        icon: Wifi,
+        title: "Connectivity Control",
+        description: "Toggle WiFi, Bluetooth, NFC, Hotspot, and Mobile Data"
+      },
+      {
+        icon: Flashlight,
+        title: "Hardware Control",
+        description: "Flashlight, volume, brightness, and device settings"
+      },
+      {
+        icon: Battery,
+        title: "Device Health",
+        description: "Check battery level, RAM usage, and storage space"
+      }
+    ]
+  },
+  {
+    title: "♿ Accessibility & Interaction",
+    description: "Hands-free device navigation and control",
+    color: "accent",
+    features: [
+      {
+        icon: Settings,
+        title: "Gesture Control",
+        description: "Voice-controlled scrolling, swiping, and navigation"
+      },
+      {
+        icon: Camera,
+        title: "Screen Interaction",
+        description: "Take screenshots and perform screen actions"
+      },
+      {
+        icon: Search,
+        title: "Magic Click",
+        description: "Find and click UI elements by voice description"
+      }
+    ]
+  },
+  {
+    title: "⏰ Productivity",
+    description: "Time management and scheduling features",
+    color: "primary",
+    features: [
+      {
+        icon: Clock,
+        title: "Alarms & Timers",
+        description: "Set alarms and timers with natural language"
+      },
+      {
+        icon: Calendar,
+        title: "Smart Scheduling",
+        description: "AI-powered calendar event creation and management"
+      },
+      {
+        icon: Bot,
+        title: "App Management",
+        description: "Launch apps with fuzzy name matching"
+      }
+    ]
+  },
+  {
+    title: "🎵 Media & Entertainment",
+    description: "Music and media control capabilities",
+    color: "accent",
+    features: [
+      {
+        icon: Music,
+        title: "Music Control",
+        description: "Play, pause, skip tracks with voice commands"
+      },
+      {
+        icon: Search,
+        title: "YouTube Integration",
+        description: "Search and play YouTube videos by voice"
+      },
+      {
+        icon: Search,
+        title: "Google Search",
+        description: "Perform web searches with voice queries"
+      }
+    ]
+  }
+];
+
 export default function FeaturesPage() {
+  const [selectedPlatform, setSelectedPlatform] = useState<'windows' | 'android'>('windows');
+  const featureCategories = selectedPlatform === 'windows' ? windowsFeatureCategories : androidFeatureCategories;
+  
   return (
     <Layout>
       <div className="relative min-h-screen pt-24 lg:pt-32">
@@ -256,8 +451,41 @@ export default function FeaturesPage() {
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">
               Powerful <span className="text-gradient">Features</span>
             </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
               Discover the comprehensive capabilities that make JARVIS your ultimate AI assistant
+            </p>
+            
+            {/* Platform Selector */}
+            <div className="flex items-center justify-center gap-4 mb-8">
+              <button
+                onClick={() => setSelectedPlatform('windows')}
+                className={`flex items-center gap-2 px-6 py-3 rounded-xl border transition-all ${
+                  selectedPlatform === 'windows'
+                    ? 'bg-primary text-primary-foreground border-primary'
+                    : 'bg-card/50 text-muted-foreground border-border/50 hover:border-primary/30'
+                }`}
+              >
+                <Monitor className="w-5 h-5" />
+                <span className="font-medium">Windows Desktop</span>
+              </button>
+              <button
+                onClick={() => setSelectedPlatform('android')}
+                className={`flex items-center gap-2 px-6 py-3 rounded-xl border transition-all ${
+                  selectedPlatform === 'android'
+                    ? 'bg-primary text-primary-foreground border-primary'
+                    : 'bg-card/50 text-muted-foreground border-border/50 hover:border-primary/30'
+                }`}
+              >
+                <Smartphone className="w-5 h-5" />
+                <span className="font-medium">Android Mobile</span>
+              </button>
+            </div>
+            
+            <p className="text-sm text-muted-foreground">
+              {selectedPlatform === 'windows' 
+                ? 'Desktop AI assistant with advanced automation and control'
+                : 'Mobile AI bridge for remote PC control and local device management'
+              }
             </p>
           </motion.div>
 

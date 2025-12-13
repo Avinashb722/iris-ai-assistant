@@ -2,7 +2,7 @@ import { useState } from "react";
 import { CheckCircle2, Circle, Play, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const steps = [
+const windowsSteps = [
   {
     title: "Clone Repository",
     command: "git clone https://github.com/Avinashb722/jarvis-ai-assistant.git",
@@ -30,7 +30,40 @@ const steps = [
   }
 ];
 
-export function InstallationTracker() {
+const androidSteps = [
+  {
+    title: "Download APK",
+    command: "Download from GitHub releases",
+    description: "Get the Mob-Jarvis Android application"
+  },
+  {
+    title: "Install APK",
+    command: "Enable Unknown Sources and install",
+    description: "Install the mobile application on your device"
+  },
+  {
+    title: "Grant Permissions",
+    command: "Allow all requested permissions",
+    description: "Enable microphone, accessibility, phone, location access"
+  },
+  {
+    title: "Configure APIs",
+    command: "Add Groq and Gemini API keys in app settings",
+    description: "Set up AI processing capabilities"
+  },
+  {
+    title: "Setup PC Bridge",
+    command: "Configure Firebase and run PC listener",
+    description: "Enable remote PC control functionality"
+  }
+];
+
+interface InstallationTrackerProps {
+  platform?: 'windows' | 'android';
+}
+
+export function InstallationTracker({ platform = 'windows' }: InstallationTrackerProps) {
+  const steps = platform === 'windows' ? windowsSteps : androidSteps;
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [copiedStep, setCopiedStep] = useState<number | null>(null);
 
@@ -124,7 +157,10 @@ export function InstallationTracker() {
             <span className="font-medium">Installation Complete!</span>
           </div>
           <p className="text-sm text-muted-foreground mt-1">
-            JARVIS AI Assistant is ready to use. Run the application and start giving voice commands!
+            {platform === 'windows' 
+              ? 'JARVIS AI Assistant is ready to use. Run the application and start giving voice commands!'
+              : 'Mob-Jarvis is ready! Start controlling your PC remotely with voice commands from your Android device.'
+            }
           </p>
         </div>
       )}

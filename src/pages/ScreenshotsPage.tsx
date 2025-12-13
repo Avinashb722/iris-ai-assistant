@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import { Layout } from "@/components/layout/Layout";
-import { ImageIcon, ZoomIn, X } from "lucide-react";
+import { ImageIcon, ZoomIn, X, Monitor, Smartphone } from "lucide-react";
 import { useState } from "react";
 
-const screenshots = [
+const windowsScreenshots = [
   {
     id: 1,
     title: "Home Interface",
@@ -42,8 +42,49 @@ const screenshots = [
   }
 ];
 
+const androidScreenshots = [
+  {
+    id: 1,
+    title: "Mobile Home Screen",
+    description: "Android app main interface with voice activation button",
+    image: "/android-home.jpg"
+  },
+  {
+    id: 2,
+    title: "Vision Mode",
+    description: "Advanced AI vision capabilities and screen analysis",
+    image: "/android-vision.jpg"
+  },
+  {
+    id: 3,
+    title: "PC Control Panel",
+    description: "Remote Windows PC control interface from mobile",
+    image: "/android-pc-control.jpg"
+  },
+  {
+    id: 4,
+    title: "Settings & Configuration",
+    description: "API keys setup and app configuration options",
+    image: "/android-settings.jpg"
+  },
+  {
+    id: 5,
+    title: "Accessibility Service",
+    description: "Accessibility permissions for screen interaction and control",
+    image: "/android-accessibility.jpg"
+  },
+  {
+    id: 6,
+    title: "Command History",
+    description: "History of executed commands and their status",
+    image: "/android-history.jpg"
+  }
+];
+
 export default function ScreenshotsPage() {
+  const [selectedPlatform, setSelectedPlatform] = useState<'windows' | 'android'>('windows');
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
+  const screenshots = selectedPlatform === 'windows' ? windowsScreenshots : androidScreenshots;
 
   return (
     <Layout>
@@ -62,9 +103,35 @@ export default function ScreenshotsPage() {
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">
               <span className="text-gradient">JARVIS</span> Screenshots
             </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
               Explore the JARVIS AI Assistant interface and its advanced features
             </p>
+            
+            {/* Platform Selector */}
+            <div className="flex items-center justify-center gap-4 mb-8">
+              <button
+                onClick={() => setSelectedPlatform('windows')}
+                className={`flex items-center gap-2 px-6 py-3 rounded-xl border transition-all ${
+                  selectedPlatform === 'windows'
+                    ? 'bg-primary text-primary-foreground border-primary'
+                    : 'bg-card/50 text-muted-foreground border-border/50 hover:border-primary/30'
+                }`}
+              >
+                <Monitor className="w-5 h-5" />
+                <span className="font-medium">Windows Interface</span>
+              </button>
+              <button
+                onClick={() => setSelectedPlatform('android')}
+                className={`flex items-center gap-2 px-6 py-3 rounded-xl border transition-all ${
+                  selectedPlatform === 'android'
+                    ? 'bg-primary text-primary-foreground border-primary'
+                    : 'bg-card/50 text-muted-foreground border-border/50 hover:border-primary/30'
+                }`}
+              >
+                <Smartphone className="w-5 h-5" />
+                <span className="font-medium">Android Interface</span>
+              </button>
+            </div>
           </motion.div>
 
           {/* Gallery Grid */}
@@ -129,7 +196,10 @@ export default function ScreenshotsPage() {
             className="mt-12 text-center"
           >
             <p className="text-sm text-muted-foreground">
-              Real screenshots from the JARVIS AI Assistant interface
+              {selectedPlatform === 'windows' 
+                ? 'Real screenshots from the JARVIS AI Assistant desktop interface'
+                : 'Real screenshots from the Mob-Jarvis Android application interface'
+              }
             </p>
           </motion.div>
         </div>

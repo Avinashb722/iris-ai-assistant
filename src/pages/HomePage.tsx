@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { SystemChecker } from "@/components/SystemChecker";
 import { VoiceCommands } from "@/components/VoiceCommands";
+import { useState } from "react";
 import { 
   Download, 
   FileText, 
@@ -13,17 +14,29 @@ import {
   Shield, 
   Sparkles,
   ChevronRight,
-  Zap
+  Zap,
+  Monitor,
+  Smartphone
 } from "lucide-react";
 
-const features = [
+const windowsFeatures = [
   { icon: Mic, label: "Voice Recognition" },
   { icon: Bot, label: "Groq & Gemini AI" },
   { icon: Shield, label: "Biometric Auth" },
   { icon: Cpu, label: "Phone Integration" },
 ];
 
+const androidFeatures = [
+  { icon: Mic, label: "Voice Control" },
+  { icon: Bot, label: "Laptop/PC Control" },
+  { icon: Shield, label: "Gemini AI Integration" },
+  { icon: Cpu, label: "Advanced Mobile Features" },
+];
+
 export default function HomePage() {
+  const [selectedPlatform, setSelectedPlatform] = useState<'windows' | 'android'>('windows');
+  const features = selectedPlatform === 'windows' ? windowsFeatures : androidFeatures;
+  
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* Background Effects */}
@@ -61,6 +74,28 @@ export default function HomePage() {
             <span className="text-xl md:text-2xl lg:text-3xl text-muted-foreground font-normal">
               AI Assistant by Avinash Biradar
             </span>
+            
+            {/* Platform Selector */}
+            <div className="flex items-center justify-center gap-2 mt-6">
+              <Button
+                variant={selectedPlatform === 'windows' ? 'cyber' : 'cyber-outline'}
+                size="sm"
+                onClick={() => setSelectedPlatform('windows')}
+                className="flex items-center gap-2"
+              >
+                <Monitor className="w-4 h-4" />
+                Windows
+              </Button>
+              <Button
+                variant={selectedPlatform === 'android' ? 'cyber' : 'cyber-outline'}
+                size="sm"
+                onClick={() => setSelectedPlatform('android')}
+                className="flex items-center gap-2"
+              >
+                <Smartphone className="w-4 h-4" />
+                Android
+              </Button>
+            </div>
           </motion.h1>
 
           {/* Subtitle */}
@@ -70,8 +105,11 @@ export default function HomePage() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto mb-10 leading-relaxed"
           >
-            An advanced AI-powered virtual assistant with voice recognition, face authentication, phone integration, 
-            and intelligent automation capabilities. Built with Python, Eel, OpenCV, Groq AI, and Google Gemini.
+            {selectedPlatform === 'windows' ? (
+              'An advanced AI-powered virtual assistant with voice recognition, face authentication, phone integration, and intelligent automation capabilities. Control your laptop/PC with natural language commands. Built with Python, Eel, OpenCV, Groq AI, and Google Gemini.'
+            ) : (
+              'A powerful hybrid AI ecosystem that bridges your Android phone and Windows laptop/PC. Advanced mobile control with Gemini AI integration, voice commands, WhatsApp automation, GPS navigation, and seamless cloud synchronization using Firebase Firestore.'
+            )}
           </motion.p>
 
           {/* CTA Buttons */}
@@ -166,12 +204,17 @@ export default function HomePage() {
           transition={{ duration: 0.6, delay: 0.8 }}
           className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mb-16"
         >
-          {[
+          {(selectedPlatform === 'windows' ? [
             { value: "200+", label: "Voice Commands" },
             { value: "3+", label: "AI Models" },
             { value: "100%", label: "Python Based" },
             { value: "Open", label: "Source Code" },
-          ].map((stat, index) => (
+          ] : [
+            { value: "50+", label: "Mobile Commands" },
+            { value: "Gemini", label: "AI Integration" },
+            { value: "100%", label: "Kotlin Based" },
+            { value: "Hybrid", label: "Architecture" },
+          ]).map((stat, index) => (
             <div key={stat.label} className="text-center p-6 rounded-xl bg-card/30 border border-border/50 backdrop-blur-sm">
               <div className="font-display text-3xl font-bold text-primary mb-2">{stat.value}</div>
               <div className="text-sm text-muted-foreground">{stat.label}</div>
