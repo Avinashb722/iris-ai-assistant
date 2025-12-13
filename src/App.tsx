@@ -12,6 +12,7 @@ import ScreenshotsPage from "./pages/ScreenshotsPage";
 import DemoPage from "./pages/DemoPage";
 import DownloadsPage from "./pages/DownloadsPage";
 import ContactPage from "./pages/ContactPage";
+import SitemapPage from "./pages/SitemapPage";
 import NotFound from "./pages/NotFound";
 import { Layout } from "./components/layout/Layout";
 
@@ -33,6 +34,8 @@ const App = () => (
           <Route path="/demo" element={<DemoPage />} />
           <Route path="/downloads" element={<DownloadsPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/sitemap" element={<Layout><SitemapPage /></Layout>} />
+          <Route path="/SitemapPage.tsx" element={<Layout><SitemapPage /></Layout>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

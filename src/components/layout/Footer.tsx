@@ -124,6 +124,11 @@ export function Footer() {
                   View on GitHub
                 </a>
               </li>
+              <li>
+                <Link to="/sitemap" className="hover:text-primary transition-colors">
+                  Sitemap
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
